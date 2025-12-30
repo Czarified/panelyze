@@ -11,9 +11,16 @@ def tests(session: nox.Session) -> None:
         session: The Nox session object.
     """
     session.run(
-        "poetry", "config", "virtualenvs.create", "false", "--local", external=True
+        "python",
+        "-m",
+        "poetry",
+        "config",
+        "virtualenvs.create",
+        "false",
+        "--local",
+        external=True,
     )
-    session.run("poetry", "install", "--with=test", external=True)
+    session.run("python", "-m", "poetry", "install", "--with=test", external=True)
     session.run(
         "pytest",
         "--cov=panelyze",
@@ -32,9 +39,16 @@ def lint(session: nox.Session) -> None:
         session: The Nox session object.
     """
     session.run(
-        "poetry", "config", "virtualenvs.create", "false", "--local", external=True
+        "python",
+        "-m",
+        "poetry",
+        "config",
+        "virtualenvs.create",
+        "false",
+        "--local",
+        external=True,
     )
-    session.run("poetry", "install", "--with=lint", external=True)
+    session.run("python", "-m", "poetry", "install", "--with=lint", external=True)
     session.run("black", "--check", "src", "tests", "noxfile.py")
     session.run(
         "isort",
@@ -54,9 +68,16 @@ def black(session: nox.Session) -> None:
         session: The Nox session object.
     """
     session.run(
-        "poetry", "config", "virtualenvs.create", "false", "--local", external=True
+        "python",
+        "-m",
+        "poetry",
+        "config",
+        "virtualenvs.create",
+        "false",
+        "--local",
+        external=True,
     )
-    session.run("poetry", "install", "--with=lint", external=True)
+    session.run("python", "-m", "poetry", "install", "--with=lint", external=True)
     session.run("black", "src", "tests", "noxfile.py")
 
 
@@ -68,9 +89,16 @@ def isort(session: nox.Session) -> None:
         session: The Nox session object.
     """
     session.run(
-        "poetry", "config", "virtualenvs.create", "false", "--local", external=True
+        "python",
+        "-m",
+        "poetry",
+        "config",
+        "virtualenvs.create",
+        "false",
+        "--local",
+        external=True,
     )
-    session.run("poetry", "install", "--with=lint", external=True)
+    session.run("python", "-m", "poetry", "install", "--with=lint", external=True)
     session.run("isort", "src", "tests", "noxfile.py")
 
 
@@ -82,9 +110,16 @@ def precommit(session: nox.Session) -> None:
         session: The Nox session object.
     """
     session.run(
-        "poetry", "config", "virtualenvs.create", "false", "--local", external=True
+        "python",
+        "-m",
+        "poetry",
+        "config",
+        "virtualenvs.create",
+        "false",
+        "--local",
+        external=True,
     )
-    session.run("poetry", "install", "--with=dev", external=True)
+    session.run("python", "-m", "poetry", "install", "--with=dev", external=True)
     session.run(
         "pre-commit",
         "run",
