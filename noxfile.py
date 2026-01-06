@@ -91,3 +91,22 @@ def precommit(session: nox.Session) -> None:
         "--all-files",
         *session.posargs,
     )
+
+
+@nox.session(python="3.11")
+def docs(session: nox.Session) -> None:
+    """Build the documentation and run xdoctest.
+
+    Args:
+        session: The Nox session object.
+    """
+    session.run(
+        "poetry", "config", "virtualenvs.create", "false", "--local", external=True
+    )
+    session.run("poetry", "install", "--with=docs", external=True)
+
+    # Build documentation
+    session.run("sphinx-build", "docs", "docs/_build")
+
+    # Run xdoctest on the source code
+    session.run("xdoctest", "src/panelyze", "all")
