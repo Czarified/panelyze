@@ -1,12 +1,12 @@
 Getting Started: Isotropic Plate Example
 ========================================
 
-This example walks through setting up a simple stress analysis for a square isotropic plate with a circular cutout in the center, subjected to uniaxial tension.
+This example walks through setting up a simple stress analysis for a square isotropic plate with a circular cutout in the center, subjected to uniaxial tension. In Panelyze, boundary condition inputs default to **running loads** (e.g., $lbf/in$), which is standard for thin-panel aerospace analysis.
 
 Problem Description
 -------------------
 
-We will analyze a 10.0 in x 10.0 in square plate with a 1.0 in diameter hole (radius :math:`R = 0.5 \text{ in}`) at the center. The material is aluminum (isotropic), and we apply a 1,000 psi tensile load to the horizontal edges.
+We will analyze a 10.0 in x 10.0 in square plate with a 1.0 in diameter hole (radius :math:`R = 0.5 \text{ in}`) at the center. The panel thickness is **0.25 in**. The material is aluminum (isotropic), and we apply a **250 lbf/in** running load to the horizontal edges (equivalent to 1,000 psi stress).
 
 Free Body Diagram (FBD)
 -----------------------
@@ -37,7 +37,7 @@ Step-by-Step Implementation
 1. Define the Material
 ~~~~~~~~~~~~~~~~~~~~~~
 
-For an isotropic material, we set :math:`E_1 = E_2` and calculate :math:`G_{12}` from :math:`E` and :math:`\nu`. Note: Purely isotropic materials result in identical characteristic roots (:math:`\mu_1 = \mu_2 = i`), which can cause numerical singularities in the anisotropic formulation. We use a **pseudo-isotropic** approach by applying a small 0.1% perturbation to :math:`E_2`.
+For an isotropic material, we set :math:`E_1 = E_2` and calculate :math:`G_{12}` from :math:`E` and :math:`\nu`. We specify a thickness of 0.25 in.
 
 .. code-block:: python
 
@@ -49,7 +49,7 @@ For an isotropic material, we set :math:`E_1 = E_2` and calculate :math:`G_{12}`
    G = E / (2 * (1 + nu))
 
    # Use pseudo-isotropic modulus to avoid Lechenitskii singularity
-   mat = OrthotropicMaterial(e1=E, e2=E*1.001, nu12=nu, g12=G)
+   mat = OrthotropicMaterial(e1=E, e2=E*1.001, nu12=nu, g12=G, thickness=0.25)
 
 2. Create Geometry and Mesh
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -72,7 +72,7 @@ Define the panel dimensions and add a circular cutout.
 3. Assemble and Solve
 ~~~~~~~~~~~~~~~~~~~~~
 
-Using the `BEMKernels` and `BEMSolver` to find the unknown boundary values. We apply the loading as tractions and constrain the corners to remove rigid body modes.
+Using the `BEMKernels` and `BEMSolver`. By default, the `solve` method treats BC values as running loads ($lbf/in$).
 
 .. code-block:: python
 
@@ -85,23 +85,21 @@ Using the `BEMKernels` and `BEMSolver` to find the unknown boundary values. We a
 
    # Define Boundary Conditions (BCs)
    num_dofs = 2 * len(elements)
-   bc_type = np.zeros(num_dofs, dtype=int)  # 0 = Traction given
+   bc_type = np.zeros(num_dofs, dtype=int)  # 0 = Traction (Running Load) given
    bc_value = np.zeros(num_dofs)
 
-   # 1. Apply Traction BCs (1,000 psi Tension)
-   sigma = 1000.0
+   # 1. Apply Running Load BCs (250 lbf/in Tension)
+   q_applied = 250.0
    for i, el in enumerate(elements):
        if np.isclose(el.center[0], 0.0): # Left Edge
-           bc_value[2*i] = -sigma
+           bc_value[2*i] = -q_applied
        elif np.isclose(el.center[0], W): # Right Edge
-           bc_value[2*i] = sigma
+           bc_value[2*i] = q_applied
 
    # 2. Apply Displacement BCs (Corner Constraints)
-   # Bottom-left corner (~element 0): Fixed in X and Y (u=v=0)
    bc_type[0:2] = 1
    bc_value[0:2] = 0.0
 
-   # Bottom-right corner (~element n_side-1): Fixed in Y (v=0)
    k_br = n_side - 1
    bc_type[2*k_br + 1] = 1
    bc_value[2*k_br + 1] = 0.0
@@ -111,21 +109,22 @@ Using the `BEMKernels` and `BEMSolver` to find the unknown boundary values. We a
 4. Extract Results
 ~~~~~~~~~~~~~~~~~~
 
-Evaluate the stress at the stress concentration point (tip of the hole at :math:`\theta = 90^\circ`).
+Evaluate the stress ($psi$) and force resultants ($lbf/in$) at the stress concentration point.
 
 .. code-block:: python
 
-   # Point at theta=90 deg relative to hole center
-   # Evaluate at r=0.51 in (1.02R) for numerical stability
+   # Point at theta=90 deg relative to hole center (r=0.51 in)
    eval_pt = np.array([[W/2, H/2 + 0.51]])
    stresses = solver.compute_stress(eval_pt, u, t)
+   resultants = solver.compute_resultants(eval_pt, u, t)
 
    print(f"Sigma_xx at hole pole: {stresses[0, 0]:.1f} psi")
+   print(f"Nx at hole pole: {resultants[0, 0]:.1f} lbf/in")
 
 Verification Results
 --------------------
 
-The following code block is verified during documentation builds using the Sphinx `doctest` extension.
+The following code block is verified during documentation builds.
 
 .. testcode::
 
@@ -137,7 +136,8 @@ The following code block is verified during documentation builds using the Sphin
 
    E, nu = 10.0e6, 0.33
    G = E / (2 * (1 + nu))
-   mat = OrthotropicMaterial(e1=E, e2=E*1.001, nu12=nu, g12=G)
+   thickness = 0.25
+   mat = OrthotropicMaterial(e1=E, e2=E*1.001, nu12=nu, g12=G, thickness=thickness)
 
    W, H = 10.0, 10.0
    geom = PanelGeometry(W, H)
@@ -152,10 +152,10 @@ The following code block is verified during documentation builds using the Sphin
    bc_type = np.zeros(2 * len(elements), dtype=int)
    bc_value = np.zeros(2 * len(elements))
 
-   sigma = 1000.0
+   q_applied = 250.0
    for i, el in enumerate(elements):
-       if np.isclose(el.center[0], 0.0): bc_value[2*i] = -sigma
-       if np.isclose(el.center[0], W):   bc_value[2*i] = sigma
+       if np.isclose(el.center[0], 0.0): bc_value[2*i] = -q_applied
+       if np.isclose(el.center[0], W):   bc_value[2*i] = q_applied
 
    bc_type[0:2] = 1
    bc_value[0:2] = 0.0
@@ -167,10 +167,13 @@ The following code block is verified during documentation builds using the Sphin
    eval_pts = np.array([[W/2, H/2 + 0.51]])
    stress = solver.compute_stress(eval_pts, u, t)
 
-   # Expect SCF ~2.94
-   scf = stress[0, 0] / sigma
+   # Expect SCF ~2.94 based on stress
+   q_sigma = q_applied / thickness
+   scf = stress[0, 0] / q_sigma
+   print(f"Stress: {stress[0, 0]:.0f} psi")
    print(f"SCF: {scf:.2f}")
 
 .. testoutput::
 
+   Stress: 2944 psi
    SCF: 2.94
