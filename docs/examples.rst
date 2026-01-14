@@ -133,6 +133,7 @@ The following code block is verified during documentation builds.
    from panelyze.analysis.geometry import PanelGeometry, CircularCutout
    from panelyze.analysis.kernels import BEMKernels
    from panelyze.analysis.solver import BEMSolver
+   from panelyze.analysis import plot_results
 
    E, nu = 10.0e6, 0.33
    G = E / (2 * (1 + nu))
@@ -172,6 +173,16 @@ The following code block is verified during documentation builds.
    scf = stress[0, 0] / q_sigma
    print(f"Stress: {stress[0, 0]:.0f} psi")
    print(f"SCF: {scf:.2f}")
+
+   # After solving the system
+   fig = plot_results(
+      solver,
+      u,
+      t,
+      deform_scale=100.0,
+      title="Circular Cutout under X-Tension"
+   )
+   fig.show()
 
 .. testoutput::
 
