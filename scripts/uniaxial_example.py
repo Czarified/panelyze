@@ -1,11 +1,11 @@
 import matplotlib.pyplot as plt
 import numpy as np
 
-from panelyze.analysis import plot_results
-from panelyze.analysis.geometry import CircularCutout, PanelGeometry
-from panelyze.analysis.kernels import BEMKernels
-from panelyze.analysis.material import OrthotropicMaterial
-from panelyze.analysis.solver import BEMSolver
+from panl.analysis import plot_results
+from panl.analysis.geometry import CircularCutout, PanelGeometry
+from panl.analysis.kernels import BEMKernels
+from panl.analysis.material import OrthotropicMaterial
+from panl.analysis.solver import BEMSolver
 
 E, nu = 10.5e6, 0.33
 G = E / (2 * (1 + nu))

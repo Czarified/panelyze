@@ -1,13 +1,12 @@
 Implementation Details
 ======================
 
-This section describes the software architecture and numerical implementation of the BEM solver in Panelyze.
+This section describes the software architecture and numerical implementation of the BEM solver in Panl.
 
 Core Architecture
 -----------------
 The solver is divided into four main components:
 
-1. **Material Definition** (`panelyze.analysis.material.OrthotropicMaterial`): Handles the compliance and stiffness matrices and solves for the characteristic roots :math:`\mu_k`.
 2. **Kernels** (`panelyze.analysis.kernels.BEMKernels`): Implements the fundamental solutions from NASA CR-1934.
 3. **Geometry** (`panelyze.analysis.geometry`): Simple boundary discretization into constant linear elements.
 4. **Solver** (`panelyze.analysis.solver.BEMSolver`): Assembles the global matrices :math:`H` and :math:`G` and solves the system.

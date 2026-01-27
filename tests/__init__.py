@@ -1,1 +1,1 @@
-"""Tests for panelyze."""
+"""Tests for panl."""

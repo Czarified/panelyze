@@ -1,10 +1,10 @@
 import numpy as np
 import pytest
 
-from panelyze.analysis.geometry import PanelGeometry
-from panelyze.analysis.kernels import BEMKernels
-from panelyze.analysis.material import OrthotropicMaterial
-from panelyze.analysis.solver import BEMSolver
+from panl.analysis.geometry import EllipticalCutout, PanelGeometry
+from panl.analysis.kernels import BEMKernels
+from panl.analysis.material import OrthotropicMaterial
+from panl.analysis.solver import BEMSolver
 
 
 @pytest.fixture
@@ -117,8 +117,6 @@ def test_kernels_direct(sample_setup):
 
 
 def test_elliptical_cutout():
-    from panelyze.analysis.geometry import EllipticalCutout
-
     ell = EllipticalCutout(0, 0, 2.0, 1.0, 45.0)
     els = ell.discretize(10)
     assert len(els) == 10
@@ -164,10 +162,10 @@ def test_default_boundary_conditions(sample_setup):
 def test_default_shear_load():
     # Create a setup for shear
     E, thickness = 10.0e6, 0.1
-    from panelyze.analysis.geometry import PanelGeometry
-    from panelyze.analysis.kernels import BEMKernels
-    from panelyze.analysis.material import OrthotropicMaterial
-    from panelyze.analysis.solver import BEMSolver
+    from panl.analysis.geometry import PanelGeometry
+    from panl.analysis.kernels import BEMKernels
+    from panl.analysis.material import OrthotropicMaterial
+    from panl.analysis.solver import BEMSolver
 
     mat = OrthotropicMaterial(
         e1=E, e2=E * 1.001, nu12=0.3, g12=E / 2.6, thickness=thickness
@@ -218,10 +216,10 @@ def test_default_shear_load():
 def test_default_tension_stress():
     # Verify tension with is_stress=True
     E, thickness = 10.0e6, 0.1
-    from panelyze.analysis.geometry import PanelGeometry
-    from panelyze.analysis.kernels import BEMKernels
-    from panelyze.analysis.material import OrthotropicMaterial
-    from panelyze.analysis.solver import BEMSolver
+    from panl.analysis.geometry import PanelGeometry
+    from panl.analysis.kernels import BEMKernels
+    from panl.analysis.material import OrthotropicMaterial
+    from panl.analysis.solver import BEMSolver
 
     mat = OrthotropicMaterial(
         e1=E, e2=E * 1.001, nu12=0.3, g12=E / 2.6, thickness=thickness

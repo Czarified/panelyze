@@ -1,9 +1,9 @@
 import numpy as np
 
-from panelyze.analysis.geometry import PanelGeometry
-from panelyze.analysis.kernels import BEMKernels
-from panelyze.analysis.material import OrthotropicMaterial
-from panelyze.analysis.solver import BEMSolver
+from panl.analysis.geometry import PanelGeometry
+from panl.analysis.kernels import BEMKernels
+from panl.analysis.material import OrthotropicMaterial
+from panl.analysis.solver import BEMSolver
 
 
 def debug_solver():

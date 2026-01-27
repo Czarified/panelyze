@@ -16,7 +16,7 @@ def tests(session: nox.Session) -> None:
     session.run("poetry", "install", "--with=test", external=True)
     session.run(
         "pytest",
-        "--cov=panelyze",
+        "--cov=panl",
         "--cov-report=term-missing",
         "--cov-report=html",
         "--cov-report=xml",
@@ -112,4 +112,4 @@ def docs(session: nox.Session) -> None:
     session.run("sphinx-build", "-b", "doctest", "docs", "docs/_build")
 
     # Run xdoctest on the source code
-    session.run("xdoctest", "src/panelyze", "all")
+    session.run("xdoctest", "src/panl", "all")

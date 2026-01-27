@@ -1,9 +1,9 @@
 import numpy as np
 
-from panelyze.analysis.geometry import CircularCutout, PanelGeometry
-from panelyze.analysis.kernels import BEMKernels
-from panelyze.analysis.material import OrthotropicMaterial
-from panelyze.analysis.solver import BEMSolver
+from panl.analysis.geometry import CircularCutout, PanelGeometry
+from panl.analysis.kernels import BEMKernels
+from panl.analysis.material import OrthotropicMaterial
+from panl.analysis.solver import BEMSolver
 
 
 def verify_isotropic_plate_running_loads():

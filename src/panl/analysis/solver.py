@@ -2,8 +2,8 @@ from typing import Tuple
 
 import numpy as np
 
-from panelyze.analysis.geometry import BoundaryElement, PanelGeometry
-from panelyze.analysis.kernels import BEMKernels
+from panl.analysis.geometry import BoundaryElement, PanelGeometry
+from panl.analysis.kernels import BEMKernels
 
 
 class BEMSolver:

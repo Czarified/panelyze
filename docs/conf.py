@@ -4,7 +4,7 @@ import sys
 # Add src folder to sys.path for autodoc
 sys.path.insert(0, os.path.abspath("../src"))
 
-project = "Panelyze"
+project = "Panl"
 copyright = "2026, Benjamin Crews"
 author = "Benjamin Crews"
 release = "0.1.0"
