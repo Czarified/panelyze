@@ -19,7 +19,7 @@ Free Body Diagram (FBD)
 Simulation Workflow
 -------------------
 
-The following chart outlines the process for setting up and solving a problem in Panelyze:
+The following chart outlines the process for setting up and solving a problem in Panl:
 
 .. mermaid::
 
@@ -42,7 +42,7 @@ For an isotropic material, we set :math:`E_1 = E_2` and calculate :math:`G_{12}`
 .. code-block:: python
 
    import numpy as np
-   from panelyze.analysis.material import OrthotropicMaterial
+   from panl.analysis.material import OrthotropicMaterial
 
    E = 10.0e6  # psi (Aluminum)
    nu = 0.33
@@ -58,7 +58,7 @@ Define the panel dimensions and add a circular cutout.
 
 .. code-block:: python
 
-   from panelyze.analysis.geometry import PanelGeometry, CircularCutout
+   from panl.analysis.geometry import PanelGeometry, CircularCutout
 
    W, H = 10.0, 10.0
    radius = 0.5
@@ -76,8 +76,8 @@ Using the `BEMKernels` and `BEMSolver`. By default, the `solve` method treats BC
 
 .. code-block:: python
 
-   from panelyze.analysis.kernels import BEMKernels
-   from panelyze.analysis.solver import BEMSolver
+   from panl.analysis.kernels import BEMKernels
+   from panl.analysis.solver import BEMSolver
 
    kernels = BEMKernels(mat)
    solver = BEMSolver(kernels, geom)
@@ -129,11 +129,11 @@ The following code block is verified during documentation builds.
 .. testcode::
 
    import numpy as np
-   from panelyze.analysis.material import OrthotropicMaterial
-   from panelyze.analysis.geometry import PanelGeometry, CircularCutout
-   from panelyze.analysis.kernels import BEMKernels
-   from panelyze.analysis.solver import BEMSolver
-   from panelyze.analysis import plot_results
+   from panl.analysis.material import OrthotropicMaterial
+   from panl.analysis.geometry import PanelGeometry, CircularCutout
+   from panl.analysis.kernels import BEMKernels
+   from panl.analysis.solver import BEMSolver
+   from panl.analysis import plot_results
 
    E, nu = 10.0e6, 0.33
    G = E / (2 * (1 + nu))

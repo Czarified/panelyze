@@ -2,11 +2,11 @@ import matplotlib.pyplot as plt
 import numpy as np
 import pytest
 
-from panelyze.analysis.geometry import CircularCutout, PanelGeometry
-from panelyze.analysis.kernels import BEMKernels
-from panelyze.analysis.material import OrthotropicMaterial
-from panelyze.analysis.plotting import plot_deformed_shape, plot_results
-from panelyze.analysis.solver import BEMSolver
+from panl.analysis.geometry import CircularCutout, PanelGeometry
+from panl.analysis.kernels import BEMKernels
+from panl.analysis.material import OrthotropicMaterial
+from panl.analysis.plotting import plot_deformed_shape, plot_results
+from panl.analysis.solver import BEMSolver
 
 
 @pytest.fixture

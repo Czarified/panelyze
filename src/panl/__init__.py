@@ -1,4 +1,4 @@
-"""Panelyze - Analysis utility for structural panels with cutouts."""
+"""Panl: Structural panel analysis utility."""
 
 from importlib.metadata import PackageNotFoundError, version
 

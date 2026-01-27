@@ -1,10 +1,10 @@
-# Panelyze
+# Panl
 
-[![Tests](https://github.com/Czarified/panelyze/actions/workflows/tests.yml/badge.svg)](https://github.com/Czarified/panelyze/actions/workflows/tests.yml)
+[![Tests](https://github.com/Czarified/panl/actions/workflows/tests.yml/badge.svg)](https://github.com/Czarified/panl/actions/workflows/tests.yml)
 [![Python Version](https://img.shields.io/badge/python-3.11%2B-blue)](https://www.python.org/downloads/)
 [![Poetry](https://img.shields.io/badge/dependency%20management-poetry-blue)](https://python-poetry.org/)
 
-**Panelyze** is a Python library for analyzing structural panels with cutouts, providing tools for stress analysis, geometric optimization, and design validation.
+**Panl** is a Python library for analyzing structural panels with cutouts, providing tools for stress analysis, geometric optimization, and design validation.
 
 ## Features
 
@@ -19,15 +19,15 @@
 ### From PyPI (once published)
 
 ```bash
-pip install panelyze
+pip install panl
 ```
 
 ### For Development
 
 ```bash
 # Clone the repository
-git clone https://github.com/Czarified/panelyze.git
-cd panelyze
+git clone https://github.com/Czarified/panl.git
+cd panl
 
 # Install Poetry if you haven't already
 # Visit: https://python-poetry.org/docs/#installation
@@ -42,10 +42,10 @@ poetry run pre-commit install
 ## Quick Start
 
 ```python
-import panelyze
+import panl
 
 # Your code here
-print(f"Panelyze version: {panelyze.__version__}")
+print(f"Panl version: {panl.__version__}")
 ```
 
 ## Development

@@ -1,7 +1,7 @@
 Boundary Conditions
 ===================
 
-This section outlines the default boundary conditions used in the ``panelyze`` BEM solver and their impact on simulation results.
+This section outlines the default boundary conditions used in the ``panl`` BEM solver and their impact on simulation results.
 
 Overview
 --------

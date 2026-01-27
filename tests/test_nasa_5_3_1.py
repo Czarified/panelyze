@@ -1,11 +1,11 @@
 import numpy as np
 import pytest
 
-from panelyze.analysis.geometry import CircularCutout, PanelGeometry
-from panelyze.analysis.kernels import BEMKernels
-from panelyze.analysis.material import OrthotropicMaterial
-from panelyze.analysis.postproc import calculate_scf_at_points
-from panelyze.analysis.solver import BEMSolver
+from panl.analysis.geometry import CircularCutout, PanelGeometry
+from panl.analysis.kernels import BEMKernels
+from panl.analysis.material import OrthotropicMaterial
+from panl.analysis.postproc import calculate_scf_at_points
+from panl.analysis.solver import BEMSolver
 
 
 def test_orthotropic_scf_5_3_1():

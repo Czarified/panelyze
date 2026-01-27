@@ -1,9 +1,9 @@
-"""Placeholder tests for panelyze."""
+"""Placeholder tests for panl."""
 
-import panelyze
+import panl
 
 
-def test_version():
-    """Test that version is defined."""
-    assert hasattr(panelyze, "__version__")
-    assert isinstance(panelyze.__version__, str)
+def test_version() -> None:
+    """Test the version string is present."""
+    assert panl.__version__ is not None
+    assert isinstance(panl.__version__, str)

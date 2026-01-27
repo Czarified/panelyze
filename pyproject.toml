@@ -1,10 +1,10 @@
 [tool.poetry]
-name = "panelyze"
+name = "panl"
 version = "0.1.0"
 description = "Analysis utility for structural panels with cutouts"
 authors = ["Benjamin Crews <aceF2+Panelyze@gmail.com>"]
 readme = "README.md"
-packages = [{include = "panelyze", from = "src"}]
+packages = [{include = "panl", from = "src"}]
 
 [tool.poetry.dependencies]
 python = "^3.11"
@@ -52,7 +52,7 @@ addopts = [
 ]
 
 [tool.coverage.run]
-source = ["panelyze"]
+source = ["panl"]
 branch = true
 
 [tool.coverage.report]
@@ -67,4 +67,4 @@ include = '\.pyi?$'
 [tool.isort]
 profile = "black"
 line_length = 88
-known_first_party = ["panelyze"]
+known_first_party = ["panl"]

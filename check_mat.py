@@ -1,6 +1,6 @@
 import numpy as np
 
-from panelyze.analysis.material import OrthotropicMaterial
+from panl.analysis.material import OrthotropicMaterial
 
 
 def check_material():
