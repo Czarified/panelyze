@@ -224,3 +224,5 @@ jobs:
       - name: Run security scan with Nox
         run: |
           nox -s safety
+        env:
+          SAFETY_API_KEY: ${{ secrets.SAFETY_API_KEY }}
