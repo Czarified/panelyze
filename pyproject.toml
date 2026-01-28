@@ -24,6 +24,7 @@ matplotlib = "^3.10.0"
 [tool.poetry.group.test.dependencies]
 pytest = "^8.3.4"
 pytest-cov = "^6.0.0"
+safety = "^3.3.0"
 
 [tool.poetry.group.lint.dependencies]
 black = "^24.10.0"
