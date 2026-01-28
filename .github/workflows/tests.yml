@@ -8,6 +8,7 @@ on:
     branches:
       - main
   workflow_dispatch:
+  workflow_call:
 
 jobs:
   test:
@@ -125,10 +126,6 @@ jobs:
         run: |
           python -m pip install nox
 
-      - name: Run linting with Nox
-        run: |
-          nox -s lint
-
       - name: Run pre-commit hooks
         run: |
           nox -s pre-commit
@@ -136,7 +133,7 @@ jobs:
   docs:
     name: Build Documentation
     runs-on: ubuntu-latest
-    needs: [test, lint]
+    needs: [lint, test, safety]
 
     steps:
       - name: Checkout repository
@@ -183,3 +180,49 @@ jobs:
           name: documentation
           path: docs/_build
           retention-days: 7
+
+  safety:
+    name: Security Scan
+    runs-on: ubuntu-latest
+    if: github.event_name == 'pull_request' || (github.event_name == 'push' && github.ref == 'refs/heads/main')
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python 3.11
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Upgrade pip
+        run: |
+          python -m pip install --upgrade pip
+
+      - name: Install Poetry via pip
+        run: |
+          python -m pip install poetry
+
+      - name: Install Poetry via action
+        uses: snok/install-poetry@v1
+        with:
+          version: latest
+          virtualenvs-create: true
+          virtualenvs-in-project: true
+
+      - name: Load cached Nox environments
+        id: cached-nox-environments
+        uses: actions/cache@v4
+        with:
+          path: .nox
+          key: nox-ubuntu-3.11-safety-${{ hashFiles('**/poetry.lock') }}
+
+      - name: Install Nox
+        run: |
+          python -m pip install nox
+
+      - name: Run security scan with Nox
+        run: |
+          nox -s safety
+        env:
+          SAFETY_API_KEY: ${{ secrets.SAFETY_API_KEY }}
